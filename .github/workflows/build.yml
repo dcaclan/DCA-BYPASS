@@ -1,0 +1,19 @@
+name: Build DCA Logic
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r21e
+      - name: Build Binary
+        run: |
+          cd jni && ndk-build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dca_logic_binary
+          path: libs/arm64-v8a/dca_logic
