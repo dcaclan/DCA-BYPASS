@@ -13,13 +13,15 @@ jobs:
         with:
           ndk-version: r21e
 
-      - name: Compile
+      - name: Build Binary
         run: |
-          # Agar jni folder nahi hai toh auto-create karega
+          # Agar files bahar hain toh unhe jni folder mein move karega
           mkdir -p jni
-          # Files ko move karega agar wo bahar padi hain
-          mv dca_logic.cpp Android.mk Application.mk jni/ 2>/dev/null || true
-          ndk-build -C ./jni
+          [ -f dca_logic.cpp ] && mv dca_logic.cpp jni/
+          [ -f Android.mk ] && mv Android.mk jni/
+          [ -f Application.mk ] && mv Application.mk jni/
+          
+          cd jni && ndk-build
 
       - name: Upload Binary
         uses: actions/upload-artifact@v4
