@@ -13,14 +13,13 @@ jobs:
         with:
           ndk-version: r21e
 
-      - name: Build Binary
+      - name: Compile
         run: |
-          # Agar jni folder nahi hai toh ye error nahi dega
-          if [ -d "jni" ]; then
-            cd jni && ndk-build
-          else
-            ndk-build -C .
-          fi
+          # Agar jni folder nahi hai toh auto-create karega
+          mkdir -p jni
+          # Files ko move karega agar wo bahar padi hain
+          mv dca_logic.cpp Android.mk Application.mk jni/ 2>/dev/null || true
+          ndk-build -C ./jni
 
       - name: Upload Binary
         uses: actions/upload-artifact@v4
