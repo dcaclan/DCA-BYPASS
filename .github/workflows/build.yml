@@ -13,9 +13,14 @@ jobs:
         with:
           ndk-version: r21e
 
-      - name: Compile with ndk-build
+      - name: Build Binary
         run: |
-          cd jni && ndk-build
+          # Agar jni folder nahi hai toh ye error nahi dega
+          if [ -d "jni" ]; then
+            cd jni && ndk-build
+          else
+            ndk-build -C .
+          fi
 
       - name: Upload Binary
         uses: actions/upload-artifact@v4
