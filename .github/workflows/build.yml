@@ -13,15 +13,16 @@ jobs:
         with:
           ndk-version: r21e
 
-      - name: Build Binary
+      - name: Compile with ndk-build
         run: |
-          # Agar files bahar hain toh unhe jni folder mein move karega
+          # Agar files bahar hain toh ye unhe auto-move kar dega jni folder mein
           mkdir -p jni
           [ -f dca_logic.cpp ] && mv dca_logic.cpp jni/
           [ -f Android.mk ] && mv Android.mk jni/
           [ -f Application.mk ] && mv Application.mk jni/
           
-          cd jni && ndk-build
+          # Final Build Command
+          ndk-build -C ./jni
 
       - name: Upload Binary
         uses: actions/upload-artifact@v4
